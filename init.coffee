@@ -1,20 +1,22 @@
 polka = require("polka")
 
-one = (req, res, next) ->
-  req.hello = "world"
-  next()
+sqlite3 = require('sqlite3').verbose()
+db = new sqlite3.Database(':memory:')
 
-two = (req, res, next) ->
-  req.foo = "...needs better demo 😔"
-  next()
+db.serialize ->
+  db.run("CREATE TABLE posts (id INTEGER PRIMARY KEY, title TEXT, body TEXT)")
+
+  stmt = db.prepare("INSERT INTO posts VALUES (?, ?, ?)")
+  stmt.run 1, "Hello...", "...world!"
+  stmt.run 2, "OMG", "It works!"
+  stmt.finalize()
+
 
 polka()
-  .use one, two
-  .get "/foo", (req, res) ->
-    res.end "Bar!"
-  .get "/users/:id", (req, res) ->
-    console.log "~> Hello, #{req.hello}"
-    res.end "User: #{req.params.id}"
+  .get "/posts/:id", (req, res) ->
+    db.get "SELECT * FROM posts WHERE id = ?", req.params.id, (err, post) ->
+      console.log post
+      res.end "Post Title: #{post.title}"
   .listen 3000
   .then ->
-    console.log "> Running on localhost:3000"
+    console.log "> sadpants running on http://localhost:3000"
