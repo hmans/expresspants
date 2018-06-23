@@ -3,7 +3,12 @@ posts = require "./posts"
 
 posts.createSeedData()
 
+logger = (req, res, next) ->
+  console.log "#{req.method} #{req.url}"
+  next()
+
 polka()
+  .use logger
   .get "/posts/:id", (req, res) ->
     post = await posts.load req.params.id
     console.log post
