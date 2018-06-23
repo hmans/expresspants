@@ -9,4 +9,10 @@ module.exports =
       stmt.finalize()
 
   load: (id, fn) ->
-    db.get "SELECT * FROM posts WHERE id = ?", id, fn
+    new Promise (resolve, reject) ->
+      db.get "SELECT * FROM posts WHERE id = ?", id, (error, post) ->
+        if error
+          reject error
+        else
+          resolve post
+      
