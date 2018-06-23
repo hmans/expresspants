@@ -1,14 +1,11 @@
 express = require "express"
 posts = require "./posts"
+timedLogger = require "./timedLogger"
 
 posts.createSeedData()
 
-logger = (req, res, next) ->
-  console.log "#{Date.now()} #{req.method} #{req.url}"
-  next()
-
 app = express()
-  .use logger
+  .use timedLogger
   .get '/', (req, res) ->
     res.send 'w00p'
 
