@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "coffeescript": "^2.3.1",
-    "polka": "^0.4.0",
+    "express": "^4.16.3",
     "sqlite3": "^4.0.0"
   },
   "scripts": {
