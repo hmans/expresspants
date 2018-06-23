@@ -9,6 +9,6 @@
     "sqlite3": "^4.0.0"
   },
   "scripts": {
-    "dev": "coffee init.coffee"
+    "dev": "coffee index.coffee"
   }
 }
