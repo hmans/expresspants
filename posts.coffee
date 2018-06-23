@@ -9,10 +9,9 @@ module.exports =
       stmt.finalize()
 
   load: (id, fn) ->
-    new Promise (resolve, reject) ->
+    p = new Promise (resolve, reject) ->
       db.get "SELECT * FROM posts WHERE id = ?", id, (error, post) ->
-        if error
-          reject error
-        else
-          resolve post
-      
+        error ? reject error : resolve post
+
+    p.catch (error) ->
+      console.log "Error loading post: #{error}"

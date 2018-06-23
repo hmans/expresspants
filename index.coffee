@@ -5,12 +5,13 @@ posts.createSeedData()
 
 polka()
   .get "/posts/:id", (req, res) ->
-    posts.load req.params.id
-      .then (post) ->
-        console.log post
-        res.end "Post Title: #{post.title}"
-      .catch (error) ->
-        console.log "OMG ERROR: #{error}"
+    post = await posts.load req.params.id
+    console.log post
+
+    if post
+      res.end "Post Title: #{post.title}"
+    else
+      res.end "Not found :-("
 
   .listen 3000
   .then ->
