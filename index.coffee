@@ -8,9 +8,8 @@ app = express()
   .use timedLogger
   .get '/', (req, res) ->
     res.send 'w00p'
-
-console.log "> polkapants running on http://localhost:3000"
-app.listen 3000
+  .listen 3000, ->
+    console.log "> polkapants running on http://localhost:3000"
 
 # polka()
 #   .use logger
